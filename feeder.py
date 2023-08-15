@@ -1,27 +1,37 @@
+import os
 import h5py
 
-def add_code_to_h5(code):
-    current_length = 0  # Inicializa a variável fora do bloco if/else
-    with h5py.File('code_storage.h5', 'a') as f:
-        if 'codes' not in f:
-            codes = f.create_dataset('codes', dtype=h5py.string_dtype(), shape=(1,), maxshape=(None,))
-            codes[0] = code
+# Exemplos de códigos de linguagens de programação
+example_codes = [
+    """print("Hello, World!")""",
+    """def factorial(n):
+        if n <= 1:
+            return 1
         else:
-            codes = f['codes']
-            current_length = codes.shape[0]
-            codes.resize((current_length + 1,))
-            codes[current_length] = code
-            codes.flush()
-    print(f"Total codes saved: {current_length + 1}")
+            return n * factorial(n-1)""",
+    """# Calcula a sequência de Fibonacci
+def fibonacci(n):
+    fib = [0, 1]
+    for i in range(2, n):
+        fib.append(fib[i-1] + fib[i-2])
+    return fib"""
+    # Adicione mais exemplos de código aqui
+]
 
-if __name__ == "__main__":
-    new_code = """
-import random
-import string
+# Caminho absoluto para o arquivo HDF5
+file_path = './code_storage.h5'
 
-length = 12
-password = ''.join(random.choice(string.ascii_letters + string.digits + string.punctuation) for _ in range(length))
-print(f"A senha gerada é: {password}")
-
-"""
-    add_code_to_h5(new_code)
+# Verifica se o arquivo já existe ou não
+if os.path.exists(file_path):
+    # Abre o arquivo existente
+    with h5py.File(file_path, 'a') as f:
+        # Remove o dataset 'codes' se já existir
+        if 'codes' in f:
+            del f['codes']
+        # Cria um novo dataset 'codes'
+        f.create_dataset('codes', data=[code.encode('utf-8') for code in example_codes])
+else:
+    # Cria um novo arquivo HDF5
+    with h5py.File(file_path, 'w') as f:
+        # Cria um dataset 'codes'
+        f.create_dataset('codes', data=[code.encode('utf-8') for code in example_codes])

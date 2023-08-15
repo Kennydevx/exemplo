@@ -55,10 +55,13 @@ def modify_randomly(code):
   return code
 
 
-def train_model(training_input, training_output, validation_input, validation_output, num_tokens, max_sequence_length):
+def train_model(training_input, training_output, validation_input, validation_output, num_tokens, max_sequence_length, return_sequences=True):
+    training_input_set = set(training_input)
+    training_output_set = set(training_output)
+    num_classes = len(training_input_set | training_output_set)
     model = Sequential([
         Embedding(input_dim=num_tokens, output_dim=32, input_length=max_sequence_length),
-        LSTM(num_classes, return_sequences=True),
+        LSTM(num_classes, return_sequences=return_sequences),
         Dense(num_classes, activation='softmax')
     ])
 

@@ -2,68 +2,32 @@ import os
 import h5py
 import subprocess
 import numpy as np
-import tensorflow as tf  # Adicione esta linha
+import tensorflow as tf
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Embedding, LSTM, Dense
 
-
 def load_codes(file_path='code_storage.h5'):
-  with h5py.File(file_path, 'r') as f:
-    codes = [code.decode('utf-8') for code in f['codes']]
-  return codes
-
-
-def save_code_to_file(code, filename):
-  with open(filename, 'w') as f:
-    f.write(code)
-
-
-def execute_code_file(filename):
-  try:
-    result = subprocess.check_output(['python', filename], stderr=subprocess.STDOUT, text=True)
-    return result.strip()
-  except subprocess.CalledProcessError as e:
-    return f"Erro na execução: {e.output.strip()}"
-
+    with h5py.File(file_path, 'r') as f:
+        codes = [code.decode('utf-8') for code in f['codes']]
+    return codes
 
 def encode_result(code, char_to_index):
-    encoded_result = np.zeros(len(code), dtype=np.int32)
-    for i, char in enumerate(code):
-        encoded_result[i] = char_to_index[char]
+    encoded_result = [char_to_index[char] for char in code]
     return encoded_result
 
-
-def generate_random_code(model, token_to_index, num_tokens, max_sequence_length):
-  generated_code = ''
-  input_sequence = np.zeros((1, max_sequence_length))
-
-  for i in range(max_sequence_length):
-    predictions = model.predict(input_sequence)
-    predicted_index = np.argmax(predictions)
-    generated_char = next(char for char, index in token_to_index.items() if index == predicted_index)
-    if generated_char == '\0':
-      break
-    generated_code += generated_char
-    input_sequence[0, i] = predicted_index
-
-  return generated_code
-
-
-def modify_randomly(code):
-  # Adicione sua lógica de modificação aleatória aqui
-  # Por exemplo, pode trocar alguns caracteres, adicionar ou remover linhas, etc.
-  return code
-
-
-def train_model(training_input, training_output, validation_input, validation_output, num_tokens, max_sequence_length, num_classes):
+def train_model(training_input, training_output, validation_input, validation_output, num_tokens, max_sequence_length, num_classes, char_to_index):
     longest_sequence = max(len(sequence) for sequence in training_input + validation_input)
     training_input_np = np.zeros((len(training_input), longest_sequence))
-    for i, sequence in enumerate(training_input):
-        training_input_np[i, :len(sequence)] = [float(token) for token in sequence.replace('\n', '')]
     validation_input_np = np.zeros((len(validation_input), longest_sequence))
+
+    for i, sequence in enumerate(training_input):
+        sequence_encoded = encode_result(sequence, char_to_index)
+        training_input_np[i, :len(sequence_encoded)] = sequence_encoded
+
     for i, sequence in enumerate(validation_input):
-        validation_input_np[i, :len(sequence)] = [float(token) for token in sequence.replace('\n', '')]
-    num_classes = training_input_np.shape[1]
+        sequence_encoded = encode_result(sequence, char_to_index)
+        validation_input_np[i, :len(sequence_encoded)] = sequence_encoded
+
     model = Sequential([
         Embedding(input_dim=num_tokens, output_dim=32, input_length=longest_sequence),
         LSTM(num_classes, return_sequences=True),
@@ -72,14 +36,23 @@ def train_model(training_input, training_output, validation_input, validation_ou
 
     model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['categorical_accuracy'])
 
-    model.fit(training_input_np, training_output_np, validation_data=(validation_input_np, validation_output_np), epochs=100, batch_size=128)
+    model.fit(training_input_np, training_output, validation_data=(validation_input_np, validation_output), epochs=100, batch_size=128)
 
-
-
-    evaluation_score = model.evaluate(validation_input, validation_output, verbose=0)
+    evaluation_score = model.evaluate(validation_input_np, validation_output, verbose=0)
     print(f"Avaliação do modelo: Loss = {evaluation_score[0]}, Accuracy = {evaluation_score[1]}")
 
     model.save('custom_code_generator_model.h5')
+
+def convert_list_to_numpy_array(list):
+  """Converte uma lista de listas para um array numpy de uma dimensão"""
+  numpy_array = []
+  for sublist in list:
+    for char in sublist:
+      if not char.isalnum():
+        numpy_array.append(np.nan)
+      else:
+        numpy_array.append(np.array(char, dtype=np.int32))
+  return np.array(numpy_array)
 
 def main():
     codes = load_codes()
@@ -101,13 +74,13 @@ def main():
     validation_input = [list(code) for code in validation_codes]
 
     # Converta as sequências de caracteres para matrizes numéricas
-    training_output = [encode_result(code, char_to_index) for code in training_input]
-    validation_output = [encode_result(code, char_to_index) for code in validation_input]
+    training_output = [tf.keras.utils.to_categorical(encode_result(code, char_to_index), num_classes=len(unique_chars)) for code in training_input]
+    validation_output = [tf.keras.utils.to_categorical(encode_result(code, char_to_index), num_classes=len(unique_chars)) for code in validation_input]
 
-    num_classes = len(char_to_index)  # O número de classes é igual ao número de caracteres únicos
+    num_classes = len(unique_chars)  # O número de classes é igual ao número de caracteres únicos
 
     # Treine o modelo
-    train_model(training_input, training_output, validation_input, validation_output, num_tokens, max_sequence_length, num_classes)
+    train_model(training_input, training_output, validation_input, validation_output, num_tokens, max_sequence_length, num_classes, char_to_index)
 
     # Gere um código aleatório
     generated_code = generate_random_code(model, char_to_index, num_tokens, max_sequence_length)

@@ -55,23 +55,24 @@ def modify_randomly(code):
   return code
 
 
-def train_model(training_input, training_output, validation_input, validation_output, num_tokens, max_sequence_length, num_classes, return_sequences=True):
-    training_input_set = set()
-    for code in training_input:
-        training_input_set.add("".join(code))
-    training_output_set = set()
-    for code in training_output:
-        training_output_set.add("".join(map(str, code)))
-    num_classes = len(training_input_set | training_output_set)
+def train_model(training_input, training_output, validation_input, validation_output, num_tokens, max_sequence_length, num_classes):
+    longest_sequence = max(len(sequence) for sequence in training_input + validation_input)
+    training_input_np = np.zeros((len(training_input), longest_sequence))
+    for i, sequence in enumerate(training_input):
+        training_input_np[i, :len(sequence)] = [float(token) for token in sequence.replace('\n', '')]
+    validation_input_np = np.zeros((len(validation_input), longest_sequence))
+    for i, sequence in enumerate(validation_input):
+        validation_input_np[i, :len(sequence)] = [float(token) for token in sequence.replace('\n', '')]
+    num_classes = training_input_np.shape[1]
     model = Sequential([
-        Embedding(input_dim=num_tokens, output_dim=32, input_length=max_sequence_length),
-        LSTM(num_classes, return_sequences=return_sequences),
+        Embedding(input_dim=num_tokens, output_dim=32, input_length=longest_sequence),
+        LSTM(num_classes, return_sequences=True),
         Dense(num_classes, activation='softmax')
     ])
 
     model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['categorical_accuracy'])
 
-    model.fit(training_input, training_output, validation_data=(validation_input, validation_output), epochs=100, batch_size=128)
+    model.fit(training_input_np, training_output_np, validation_data=(validation_input_np, validation_output_np), epochs=100, batch_size=128)
 
 
 

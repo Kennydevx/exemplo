@@ -55,9 +55,13 @@ def modify_randomly(code):
   return code
 
 
-def train_model(training_input, training_output, validation_input, validation_output, num_tokens, max_sequence_length, return_sequences=True):
-    training_input_set = set(training_input)
-    training_output_set = set(training_output)
+def train_model(training_input, training_output, validation_input, validation_output, num_tokens, max_sequence_length, num_classes, return_sequences=True):
+    training_input_set = set()
+    for code in training_input:
+        training_input_set.add("".join(code))
+    training_output_set = set()
+    for code in training_output:
+        training_output_set.add("".join(map(str, code)))
     num_classes = len(training_input_set | training_output_set)
     model = Sequential([
         Embedding(input_dim=num_tokens, output_dim=32, input_length=max_sequence_length),
@@ -68,6 +72,7 @@ def train_model(training_input, training_output, validation_input, validation_ou
     model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['categorical_accuracy'])
 
     model.fit(training_input, training_output, validation_data=(validation_input, validation_output), epochs=100, batch_size=128)
+
 
 
     evaluation_score = model.evaluate(validation_input, validation_output, verbose=0)

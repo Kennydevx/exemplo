@@ -22,16 +22,6 @@ class ReinforcementLearningAgent:
             self.q_values[next_state] = np.zeros(3)
         current_q = self.q_values[state][action]
         max_future_q = np.max(self.q_values[next_state])
-        new_q = current_q + 0.3 * (reward + 0.9 * max_future_q - current_q)
-        self.q_values[state][action] = new_q
-
-    def update_q_value(self, state, action, reward, next_state):
-        if state not in self.q_values:
-            self.q_values[state] = np.zeros(3)
-        if next_state not in self.q_values:
-            self.q_values[next_state] = np.zeros(3)
-        current_q = self.q_values[state][action]
-        max_future_q = np.max(self.q_values[next_state])
         new_q = current_q + 0.1 * (reward + 0.9 * max_future_q - current_q)
         self.q_values[state][action] = new_q
 

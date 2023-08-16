@@ -24,8 +24,8 @@ def encode_sequence(sequence, char_to_index):
 
 def generate_model(input_shape, num_classes):
     model = Sequential([
-        Embedding(input_dim=num_classes, output_dim=528, input_length=input_shape[1]),
-        LSTM(64, return_sequences=True),
+        Embedding(input_dim=num_classes, output_dim=128, input_length=input_shape[1]),
+        LSTM(32, return_sequences=True),
         Dropout(0.02),
         Dense(num_classes, activation='softmax')
     ])
@@ -38,6 +38,11 @@ def generate_random_code(model, index_to_char, num_classes, max_sequence_length)
     generated_sequence = model.predict(seed).argmax(axis=-1)
     generated_code = ''.join(index_to_char[idx] for idx in generated_sequence[0])
     return generated_code
+
+# Defina a função de fitness
+def fitness_function(target_code, code):
+    score = np.sum(np.array(code) == np.array(target_code))
+    return score
 
 def main():
     codes = load_codes()
@@ -70,8 +75,10 @@ def main():
 
     checkpoint = ModelCheckpoint('trained_model.h5', monitor='val_loss', save_best_only=True, verbose=1)
 
+    target_code = [0, 1, 2, 2, 1, 0]  # Define your target code here
+
     # Treinamento inicial com dados originais
-    model.fit(training_input, training_output, validation_data=(validation_input, validation_output), epochs=100, batch_size=128, callbacks=[checkpoint])
+    model.fit(training_input, training_output, validation_data=(validation_input, validation_output), epochs=10, batch_size=128, callbacks=[checkpoint])
 
     # Carregar e preparar novos dados para treinamento
     new_data_input = load_additional_data('additional_code_storage.txt')
@@ -85,7 +92,7 @@ def main():
     new_data_output_categorical = tf.keras.utils.to_categorical(new_data_input_padded, num_classes=num_classes)
 
     # Continuar treinamento com novos dados
-    model.fit(new_data_input_padded, new_data_output_categorical, epochs=50, batch_size=128, callbacks=[checkpoint])
+    model.fit(new_data_input_padded, new_data_output_categorical, epochs=5, batch_size=128, callbacks=[checkpoint])
 
     generated_code = generate_random_code(model, index_to_char, num_classes, max_sequence_length)
     print("Generated Code:")
@@ -107,17 +114,18 @@ def main():
         print(generated_code)
 
     # Usar Algoritmo Genético para gerar código
-    ga = GeneticAlgorithm(population_size=20, code_length=max_sequence_length)
+    mutation_rate = 0.1  # Defina um valor adequado para a taxa de mutação
+    ga = GeneticAlgorithm(population_size=20, code_length=max_sequence_length, mutation_rate=mutation_rate)
 
     for generation in range(10):
-        ga.evaluate_population_fitness()
-        best_code = ga.get_best_code()
+        fitness_scores = ga.evaluate_population_fitness(lambda code: fitness_function(target_code, code))
+        best_code = ga.get_best_code(fitness_scores)
 
         print(f"Generation {generation + 1}: Best code (GA) = {best_code}")
 
-        ga.evolve_population()
+        ga.evolve_population(fitness_scores)
 
-    print("Final best code (GA):", ga.get_best_code())
+    print("Final best code (GA):", ga.get_best_code(fitness_scores))
 
 if __name__ == "__main__":
     main()

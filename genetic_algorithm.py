@@ -10,7 +10,7 @@ class GeneticAlgorithm:
     def initialize_population(self):
         population = []
         for _ in range(self.population_size):
-            code = np.random.randint(0, 3, size=self.code_length)  # Replace 3 with the number of available actions
+            code = np.random.randint(0, 5, size=self.code_length)  # Replace 3 with the number of available actions
             population.append(code)
         return population
     
@@ -30,7 +30,7 @@ class GeneticAlgorithm:
         mutated_code = code.copy()
         for i in range(self.code_length):
             if np.random.rand() < self.mutation_rate:
-                mutated_code[i] = np.random.randint(0, 3)  # Replace 3 with the number of available actions
+                mutated_code[i] = np.random.randint(0, 5)  # Replace 3 with the number of available actions
         return mutated_code
     
     def evolve_population(self, fitness_scores):
@@ -93,9 +93,9 @@ def code_similarity_advanced(target_code, generated_code):
     return similarity_score
 
 if __name__ == "__main__":
-    population_size = 20
-    code_length = 6
-    mutation_rate = 0.1
+    population_size = 2000
+    code_length = 20
+    mutation_rate = 0.2
 
     target_code = ["print('Hello')", "for i in range(5):", "x = 2 + 3", "if x > 5:", "x -= 1", "while x > 0:"]
     

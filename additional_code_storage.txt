@@ -1,261 +1,2178 @@
-def bubble_sort(arr):
-    n = len(arr)
-    for i in range(n):
-        for j in range(0, n-i-1):
-            if arr[j] > arr[j+1]:
-                arr[j], arr[j+1] = arr[j+1], arr[j]
-    return arr
-class Stack:
-    def __init__(self):
-        self.items = []
-        
-    def push(self, item):
-        self.items.append(item)
-        
-    def pop(self):
-        if not self.is_empty():
-            return self.items.pop()
-            
-    def peek(self):
-        if not self.is_empty():
-            return self.items[-1]
-            
-    def is_empty(self):
-        return len(self.items) == 0
-        
-    def size(self):
-        return len(self.items)
+def fibonacci(n):
+    if n <= 0:
+        return []
+    elif n == 1:
+        return [0]
+    else:
+        fib_sequence = [0, 1]
+        for i in range(2, n):
+            next_fib = fib_sequence[-1] + fib_sequence[-2]
+            fib_sequence.append(next_fib)
+        return fib_sequence
+
+def is_prime(n):
+    if n <= 1:
+        return False
+    for i in range(2, int(n**0.5) + 1):
+        if n % i == 0:
+            return False
+    return True
+
+def word_count(text):
+    words = text.split()
+    return len(words)
+def prime_factors(n):
+    factors = []
+    divisor = 2
+    while n > 1:
+        while n % divisor == 0:
+            factors.append(divisor)
+            n //= divisor
+        divisor += 1
+    return factors
+
+def calculate_factorial_iterative(n):
+    result = 1
+    for i in range(1, n + 1):
+        result *= i
+    return result
+
+def find_gcd(a, b):
+    while b:
+        a, b = b, a % b
+    return a
+
+def generate_fibonacci(n):
+    fib_sequence = [0, 1]
+    while len(fib_sequence) < n:
+        next_fib = fib_sequence[-1] + fib_sequence[-2]
+        fib_sequence.append(next_fib)
+    return fib_sequence
+
+def capitalize_words(text):
+    words = text.split()
+    capitalized_words = [word.capitalize() for word in words]
+    return " ".join(capitalized_words)
+def convert_to_binary(n):
+    return bin(n)[2:]
+
+def convert_to_hexadecimal(n):
+    return hex(n)[2:]
+
+def convert_to_octal(n):
+    return oct(n)[2:]
+
+def calculate_area_of_circle(radius):
+    return 3.14159 * radius ** 2
+
+def calculate_perimeter_of_rectangle(length, width):
+    return 2 * (length + width)
+def find_lcm(a, b):
+    gcd = find_gcd(a, b)
+    return (a * b) // gcd
+
+def count_words(text):
+    words = text.split()
+    return len(words)
+
+def remove_duplicates(numbers):
+    return list(set(numbers))
+
+def remove_whitespace(text):
+    return text.replace(" ", "")
+
+def is_power_of_two(n):
+    return n > 0 and (n & (n - 1)) == 0
+def find_median(numbers):
+    sorted_numbers = sorted(numbers)
+    length = len(numbers)
+    if length % 2 == 1:
+        return sorted_numbers[length // 2]
+    else:
+        middle_indices = (length // 2) - 1, length // 2
+        middle_numbers = [sorted_numbers[i] for i in middle_indices]
+        return sum(middle_numbers) / 2
+
+def calculate_percentage(part, total):
+    return (part / total) * 100
+
+def find_unique_characters(text):
+    unique_chars = set(text)
+    return "".join(unique_chars)
+
+def calculate_exponential(base, exponent):
+    return base ** exponent
+
+def is_armstrong_number(n):
+    digit_count = len(str(n))
+    total = sum(int(digit) ** digit_count for digit in str(n))
+    return total == n
+def remove_punctuation(text):
+    import string
+    translator = str.maketrans("", "", string.punctuation)
+    return text.translate(translator)
+
+def find_mode(numbers):
+    from collections import Counter
+    counter = Counter(numbers)
+    mode = counter.most_common(1)
+    return mode[0][0]
+
+def calculate_hypotenuse(a, b):
+    return (a ** 2 + b ** 2) ** 0.5
+
+def calculate_mean_squared_error(actual_values, predicted_values):
+    n = len(actual_values)
+    squared_errors = [(actual - predicted) ** 2 for actual, predicted in zip(actual_values, predicted_values)]
+    mse = sum(squared_errors) / n
+    return mse
+
+def is_leap_year(year):
+    return (year % 4 == 0 and year % 100 != 0) or (year % 400 == 0)
+def find_longest_word(words):
+    longest_word = ""
+    for word in words:
+        if len(word) > len(longest_word):
+            longest_word = word
+    return longest_word
+
+def calculate_power(base, exponent):
+    return base ** exponent
+
+def remove_duplicates(lst):
+    unique_lst = list(set(lst))
+    return unique_lst
+
+def is_even(number):
+    return number % 2 == 0
+
+def count_occurrences(lst, item):
+    return lst.count(item)
+def find_common_prefix(strings):
+    if not strings:
+        return ""
+    common_prefix = strings[0]
+    for string in strings:
+        i = 0
+        while i < len(common_prefix) and i < len(string) and common_prefix[i] == string[i]:
+            i += 1
+        common_prefix = common_prefix[:i]
+    return common_prefix
+
+def calculate_binomial_coefficient(n, k):
+    from math import comb
+    return comb(n, k)
+
+def is_power_of_two(n):
+    return n != 0 and (n & (n - 1)) == 0
+
+def remove_whitespace(text):
+    return "".join(text.split())
+
+def find_mode(lst):
+    from statistics import mode
+    return mode(lst)
+def greet(name):
+    return f"Hello, {name}!"
+
 def factorial(n):
     if n == 0:
         return 1
     else:
         return n * factorial(n - 1)
-def is_prime(n):
-    if n <= 1:
-        return False
-    if n <= 3:
-        return True
-    if n % 2 == 0 or n % 3 == 0:
-        return False
-    i = 5
-    while i * i <= n:
-        if n % i == 0 or n % (i + 2) == 0:
-            return False
-        i += 6
-    return True
+
+def quadratic_formula(a, b, c):
+    discriminant = b**2 - 4*a*c
+    if discriminant < 0:
+        return None
+    else:
+        x1 = (-b + discriminant**0.5) / (2*a)
+        x2 = (-b - discriminant**0.5) / (2*a)
+        return x1, x2
 def reverse_string(s):
     return s[::-1]
-def binary_search(arr, target):
-    left, right = 0, len(arr) - 1
-    while left <= right:
-        mid = (left + right) // 2
-        if arr[mid] == target:
-            return mid
-        elif arr[mid] < target:
-            left = mid + 1
-        else:
-            right = mid - 1
-    return -1
-import numpy as np
 
-def calculate_mean(numbers):
-    return np.mean(numbers)
+def is_palindrome(s):
+    s = s.lower().replace(" ", "")
+    return s == s[::-1]
 
-def calculate_stddev(numbers):
-    return np.std(numbers)
-class Queue:
-    def __init__(self):
-        self.items = []
-        
-    def enqueue(self, item):
-        self.items.insert(0, item)
-        
-    def dequeue(self):
-        if not self.is_empty():
-            return self.items.pop()
-            
-    def is_empty(self):
-        return len(self.items) == 0
-        
-    def size(self):
-        return len(self.items)
-def fibonacci_sequence(n):
-    sequence = [0, 1]
-    while len(sequence) < n:
-        next_num = sequence[-1] + sequence[-2]
-        sequence.append(next_num)
-    return sequence
-def celsius_to_fahrenheit(celsius):
-    return (celsius * 9/5) + 32
-import numpy as np
-import tensorflow as tf
-for i in range(10):
-    print(i)
-def factorial(n):
-    if n == 0:
+def calculate_average(numbers):
+    if len(numbers) == 0:
+        return None
+    return sum(numbers) / len(numbers)
+
+def find_maximum(numbers):
+    if len(numbers) == 0:
+        return None
+    return max(numbers)
+
+def find_minimum(numbers):
+    if len(numbers) == 0:
+        return None
+    return min(numbers)
+def calculate_square(x):
+    return x * x
+
+def calculate_cube(x):
+    return x * x * x
+
+def calculate_power(base, exponent):
+    return base ** exponent
+
+def calculate_factorial_recursive(n):
+    if n == 0 or n == 1:
         return 1
-    else:
-        return n * factorial(n - 1)
-x = 5
-if x > 0:
-    print("Positive")
-elif x < 0:
-    print("Negative")
-else:
-    print("Zero")
-class Person:
-    def __init__(self, name, age):
-        self.name = name
-        self.age = age
-p1 = Person("Alice", 25)
-print(p1.name, p1.age)
-def factorial(n):
-    if n == 0:
-        return 1
-    else:
-        return n * factorial(n - 1)
-class Rectangle:
-    def __init__(self, width, height):
-        self.width = width
-        self.height = height
-    
-    def area(self):
-        return self.width * self.height
-    
-    def perimeter(self):
-        return 2 * (self.width + self.height)
+    return n * calculate_factorial_recursive(n - 1)
+
+def is_even(n):
+    return n % 2 == 0
+def find_average_length(words):
+    total_length = sum(len(word) for word in words)
+    return total_length / len(words)
+
+def reverse_words_in_sentence(sentence):
+    words = sentence.split()
+    reversed_words = [word[::-1] for word in words]
+    return " ".join(reversed_words)
+
 def is_prime(n):
     if n <= 1:
         return False
-    if n <= 3:
-        return True
-    if n % 2 == 0 or n % 3 == 0:
-        return False
-    i = 5
-    while i * i <= n:
-        if n % i == 0 or n % (i + 2) == 0:
+    for i in range(2, int(n ** 0.5) + 1):
+        if n % i == 0:
             return False
-        i += 6
     return True
-def fibonacci_sequence(n):
-    sequence = [0, 1]
-    while len(sequence) < n:
-        next_num = sequence[-1] + sequence[-2]
-        sequence.append(next_num)
-    return sequence
+
+def count_vowels(text):
+    vowels = "aeiouAEIOU"
+    return sum(1 for char in text if char in vowels)
 def calculate_average(numbers):
     total = sum(numbers)
-    average = total / len(numbers)
-    return average
-import numpy as np
-import tensorflow as tf
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Embedding, LSTM, Dense
+    count = len(numbers)
+    return total / count
 
-def load_codes(file_path='code_storage.txt'):
-    with open(file_path, 'r') as f:
-        codes = f.read().splitlines()
-    return codes
+def find_max(numbers):
+    max_number = numbers[0]
+    for num in numbers:
+        if num > max_number:
+            max_number = num
+    return max_number
 
-def encode_sequence(sequence, char_to_index):
-    encoded_sequence = [char_to_index[char] for char in sequence]
-    return encoded_sequence
+def find_min(numbers):
+    min_number = numbers[0]
+    for num in numbers:
+        if num < min_number:
+            min_number = num
+    return min_number
 
-def generate_model(input_shape, num_classes):
-    model = Sequential([
-        Embedding(input_dim=num_classes, output_dim=256, input_length=input_shape[1]),  # Increased embedding output_dim to capture more information
-        LSTM(528, return_sequences=True),  # Increased LSTM units for better learning capacity
-        Dense(num_classes, activation='softmax')
-    ])
-    model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['categorical_accuracy'])
-    return model
+def calculate_fibonacci(n):
+    if n <= 0:
+        return []
+    elif n == 1:
+        return [0]
+    fib_sequence = [0, 1]
+    while len(fib_sequence) < n:
+        next_num = fib_sequence[-1] + fib_sequence[-2]
+        fib_sequence.append(next_num)
+    return fib_sequence
 
-def generate_random_code(model, index_to_char, num_classes, max_sequence_length):
-    seed = np.random.randint(num_classes, size=(1, max_sequence_length))
-    generated_sequence = model.predict(seed).argmax(axis=-1)
-    generated_code = ''.join(index_to_char[idx] for idx in generated_sequence[0])
-    return generated_code
+def is_palindrome(word):
+    return word == word[::-1]
+def capitalize_words(text):
+    words = text.split()
+    capitalized_words = [word.capitalize() for word in words]
+    return " ".join(capitalized_words)
 
-def main():
-    codes = load_codes()
-    unique_chars = sorted(set(''.join(codes)))
-    char_to_index = {char: index for index, char in enumerate(unique_chars)}
-    index_to_char = {index: char for char, index in char_to_index.items()}
+def find_common_elements(list1, list2):
+    return list(set(list1) & set(list2))
 
-    num_examples = len(codes)
-    training_codes = codes[:int(0.8 * num_examples)]
-    validation_codes = codes[int(0.8 * num_examples):]
+def calculate_gcd(a, b):
+    while b:
+        a, b = b, a % b
+    return a
 
-    max_sequence_length = max(len(code) for code in codes)
-    num_classes = len(unique_chars)
+def reverse_string(text):
+    return text[::-1]
 
-    training_input = [encode_sequence(code, char_to_index) for code in training_codes]
-    validation_input = [encode_sequence(code, char_to_index) for code in validation_codes]
+def calculate_square_root(n):
+    return n ** 0.5
+def calculate_factorial(n):
+    if n == 0:
+        return 1
+    else:
+        return n * calculate_factorial(n - 1)
 
-    # Padding using dtype=np.int32 for compatibility with TensorFlow 2.7+
-    training_input = tf.keras.preprocessing.sequence.pad_sequences(training_input, maxlen=max_sequence_length, padding='post', dtype=np.int32)
-    validation_input = tf.keras.preprocessing.sequence.pad_sequences(validation_input, maxlen=max_sequence_length, padding='post', dtype=np.int32)
+def is_prime(number):
+    if number <= 1:
+        return False
+    for i in range(2, int(number**0.5) + 1):
+        if number % i == 0:
+            return False
+    return True
 
-    training_output = tf.keras.utils.to_categorical(training_input, num_classes=num_classes)
-    validation_output = tf.keras.utils.to_categorical(validation_input, num_classes=num_classes)
+def count_vowels(text):
+    vowels = "aeiouAEIOU"
+    vowel_count = sum(1 for char in text if char in vowels)
+    return vowel_count
 
-    model = generate_model(training_input.shape, num_classes)
-    
-    # Experiment with hyperparameters like batch size, epochs, and learning rate for better results
-    model.fit(training_input, training_output, validation_data=(validation_input, validation_output), epochs=100, batch_size=128)
+def reverse_list(lst):
+    return lst[::-1]
 
-    generated_code = generate_random_code(model, index_to_char, num_classes, max_sequence_length)
-    print("Generated Code:")
-    print(generated_code)
+def calculate_average(nums):
+    return sum(nums) / len(nums)
+def find_longest_word(words):
+    longest_word = ""
+    for word in words:
+        if len(word) > len(longest_word):
+            longest_word = word
+    return longest_word
 
-if __name__ == "__main__":
-    main()
-import time
-import pyautogui
-from PIL import Image
+def calculate_power(base, exponent):
+    return base ** exponent
 
-# Função para localizar a posição de uma imagem na tela
-def encontrar_imagem(template):
-    screen = pyautogui.screenshot()
-    img = Image.open(template)
-    position = pyautogui.locate(img, screen)
-    if position:
-        return position.left, position.top
-    return None
+def remove_duplicates(lst):
+    unique_lst = list(set(lst))
+    return unique_lst
 
-# Função para clicar em um botão usando sua imagem
-def clicar_botao(template):
-    position = encontrar_imagem(template)
-    if position:
-        x, y = position
-        pyautogui.click(x, y)
-        return True
-    return False
+def is_even(number):
+    return number % 2 == 0
 
-# Função para enviar uma mensagem no chat pressionando Enter
-def enviar_mensagem_teclado(mensagem):
-    # Esperar um pouco para garantir que o chat esteja aberto e pronto para receber a mensagem
-    time.sleep(2)
+def count_occurrences(lst, item):
+    return lst.count(item)
+def greet(name):
+    return f"Hello, {name}!"
 
-    # Digitar a mensagem e pressionar Enter
-    pyautogui.typewrite(mensagem)
-    pyautogui.press("enter")
+def factorial(n):
+    if n == 0:
+        return 1
+    else:
+        return n * factorial(n - 1)
 
-# Exemplo de uso da função para clicar no botão "Sim"
-if clicar_botao("botao_sim.png"):
-    print("Botão 'Sim' clicado!")
-else:
-    print("Botão 'Sim' não encontrado.")
+def quadratic_formula(a, b, c):
+    discriminant = b**2 - 4*a*c
+    if discriminant < 0:
+        return None
+    else:
+        x1 = (-b + discriminant**0.5) / (2*a)
+        x2 = (-b - discriminant**0.5) / (2*a)
+        return x1, x2
+def reverse_string(s):
+    return s[::-1]
 
-# Espera um pouco para simular ações do jogador (opcional)
-time.sleep(2)
+def is_palindrome(s):
+    s = s.lower().replace(" ", "")
+    return s == s[::-1]
 
-# Exemplo de uso da função para clicar no botão "Aceitar"
-if clicar_botao("botao_aceitar.png"):
-    print("Botão 'Aceitar' clicado!")
-else:
-    print("Botão 'Aceitar' não encontrado.")
+def calculate_average(numbers):
+    if len(numbers) == 0:
+        return None
+    return sum(numbers) / len(numbers)
 
-# Enviar uma mensagem
-mensagem_para_enviar = "pls any item or money ? only need a set t4 to back to game i have a mount"
-enviar_mensagem_teclado(mensagem_para_enviar)
+def find_maximum(numbers):
+    if len(numbers) == 0:
+        return None
+    return max(numbers)
+
+def find_minimum(numbers):
+    if len(numbers) == 0:
+        return None
+    return min(numbers)
+def calculate_square(x):
+    return x * x
+
+def calculate_cube(x):
+    return x * x * x
+
+def calculate_power(base, exponent):
+    return base ** exponent
+
+def calculate_factorial_recursive(n):
+    if n == 0 or n == 1:
+        return 1
+    return n * calculate_factorial_recursive(n - 1)
+
+def is_even(n):
+    return n % 2 == 0
+def find_average_length(words):
+    total_length = sum(len(word) for word in words)
+    return total_length / len(words)
+
+def reverse_words_in_sentence(sentence):
+    words = sentence.split()
+    reversed_words = [word[::-1] for word in words]
+    return " ".join(reversed_words)
+
+def is_prime(n):
+    if n <= 1:
+        return False
+    for i in range(2, int(n ** 0.5) + 1):
+        if n % i == 0:
+            return False
+    return True
+
+def count_vowels(text):
+    vowels = "aeiouAEIOU"
+    return sum(1 for char in text if char in vowels)
+def calculate_average(numbers):
+    total = sum(numbers)
+    count = len(numbers)
+    return total / count
+
+def find_max(numbers):
+    max_number = numbers[0]
+    for num in numbers:
+        if num > max_number:
+            max_number = num
+    return max_number
+
+def find_min(numbers):
+    min_number = numbers[0]
+    for num in numbers:
+        if num < min_number:
+            min_number = num
+    return min_number
+
+def calculate_fibonacci(n):
+    if n <= 0:
+        return []
+    elif n == 1:
+        return [0]
+    fib_sequence = [0, 1]
+    while len(fib_sequence) < n:
+        next_num = fib_sequence[-1] + fib_sequence[-2]
+        fib_sequence.append(next_num)
+    return fib_sequence
+
+def is_palindrome(word):
+    return word == word[::-1]
+def capitalize_words(text):
+    words = text.split()
+    capitalized_words = [word.capitalize() for word in words]
+    return " ".join(capitalized_words)
+
+def find_common_elements(list1, list2):
+    return list(set(list1) & set(list2))
+
+def calculate_gcd(a, b):
+    while b:
+        a, b = b, a % b
+    return a
+
+def reverse_string(text):
+    return text[::-1]
+
+def calculate_square_root(n):
+    return n ** 0.5
+def calculate_factorial(n):
+    if n == 0:
+        return 1
+    else:
+        return n * calculate_factorial(n - 1)
+
+def is_prime(number):
+    if number <= 1:
+        return False
+    for i in range(2, int(number**0.5) + 1):
+        if number % i == 0:
+            return False
+    return True
+
+def count_vowels(text):
+    vowels = "aeiouAEIOU"
+    vowel_count = sum(1 for char in text if char in vowels)
+    return vowel_count
+
+def reverse_list(lst):
+    return lst[::-1]
+
+def calculate_average(nums):
+    return sum(nums) / len(nums)
+def find_longest_word(words):
+    longest_word = ""
+    for word in words:
+        if len(word) > len(longest_word):
+            longest_word = word
+    return longest_word
+
+def calculate_power(base, exponent):
+    return base ** exponent
+
+def remove_duplicates(lst):
+    unique_lst = list(set(lst))
+    return unique_lst
+
+def is_even(number):
+    return number % 2 == 0
+
+def count_occurrences(lst, item):
+    return lst.count(item)
+def greet(name):
+    return f"Hello, {name}!"
+
+def factorial(n):
+    if n == 0:
+        return 1
+    else:
+        return n * factorial(n - 1)
+
+def quadratic_formula(a, b, c):
+    discriminant = b**2 - 4*a*c
+    if discriminant < 0:
+        return None
+    else:
+        x1 = (-b + discriminant**0.5) / (2*a)
+        x2 = (-b - discriminant**0.5) / (2*a)
+        return x1, x2
+def reverse_string(s):
+    return s[::-1]
+
+def is_palindrome(s):
+    s = s.lower().replace(" ", "")
+    return s == s[::-1]
+
+def calculate_average(numbers):
+    if len(numbers) == 0:
+        return None
+    return sum(numbers) / len(numbers)
+
+def find_maximum(numbers):
+    if len(numbers) == 0:
+        return None
+    return max(numbers)
+
+def find_minimum(numbers):
+    if len(numbers) == 0:
+        return None
+    return min(numbers)
+def calculate_square(x):
+    return x * x
+
+def calculate_cube(x):
+    return x * x * x
+
+def calculate_power(base, exponent):
+    return base ** exponent
+
+def calculate_factorial_recursive(n):
+    if n == 0 or n == 1:
+        return 1
+    return n * calculate_factorial_recursive(n - 1)
+
+def is_even(n):
+    return n % 2 == 0
+def find_average_length(words):
+    total_length = sum(len(word) for word in words)
+    return total_length / len(words)
+
+def reverse_words_in_sentence(sentence):
+    words = sentence.split()
+    reversed_words = [word[::-1] for word in words]
+    return " ".join(reversed_words)
+
+def is_prime(n):
+    if n <= 1:
+        return False
+    for i in range(2, int(n ** 0.5) + 1):
+        if n % i == 0:
+            return False
+    return True
+
+def count_vowels(text):
+    vowels = "aeiouAEIOU"
+    return sum(1 for char in text if char in vowels)
+def calculate_average(numbers):
+    total = sum(numbers)
+    count = len(numbers)
+    return total / count
+
+def find_max(numbers):
+    max_number = numbers[0]
+    for num in numbers:
+        if num > max_number:
+            max_number = num
+    return max_number
+
+def find_min(numbers):
+    min_number = numbers[0]
+    for num in numbers:
+        if num < min_number:
+            min_number = num
+    return min_number
+
+def calculate_fibonacci(n):
+    if n <= 0:
+        return []
+    elif n == 1:
+        return [0]
+    fib_sequence = [0, 1]
+    while len(fib_sequence) < n:
+        next_num = fib_sequence[-1] + fib_sequence[-2]
+        fib_sequence.append(next_num)
+    return fib_sequence
+
+def is_palindrome(word):
+    return word == word[::-1]
+def capitalize_words(text):
+    words = text.split()
+    capitalized_words = [word.capitalize() for word in words]
+    return " ".join(capitalized_words)
+
+def find_common_elements(list1, list2):
+    return list(set(list1) & set(list2))
+
+def calculate_gcd(a, b):
+    while b:
+        a, b = b, a % b
+    return a
+
+def reverse_string(text):
+    return text[::-1]
+
+def calculate_square_root(n):
+    return n ** 0.5
+def calculate_factorial(n):
+    if n == 0:
+        return 1
+    else:
+        return n * calculate_factorial(n - 1)
+
+def is_prime(number):
+    if number <= 1:
+        return False
+    for i in range(2, int(number**0.5) + 1):
+        if number % i == 0:
+            return False
+    return True
+
+def count_vowels(text):
+    vowels = "aeiouAEIOU"
+    vowel_count = sum(1 for char in text if char in vowels)
+    return vowel_count
+
+def reverse_list(lst):
+    return lst[::-1]
+
+def calculate_average(nums):
+    return sum(nums) / len(nums)
+def find_longest_word(words):
+    longest_word = ""
+    for word in words:
+        if len(word) > len(longest_word):
+            longest_word = word
+    return longest_word
+
+def calculate_power(base, exponent):
+    return base ** exponent
+
+def remove_duplicates(lst):
+    unique_lst = list(set(lst))
+    return unique_lst
+
+def is_even(number):
+    return number % 2 == 0
+
+def count_occurrences(lst, item):
+    return lst.count(item)
+def greet(name):
+    return f"Hello, {name}!"
+
+def factorial(n):
+    if n == 0:
+        return 1
+    else:
+        return n * factorial(n - 1)
+
+def quadratic_formula(a, b, c):
+    discriminant = b**2 - 4*a*c
+    if discriminant < 0:
+        return None
+    else:
+        x1 = (-b + discriminant**0.5) / (2*a)
+        x2 = (-b - discriminant**0.5) / (2*a)
+        return x1, x2
+def reverse_string(s):
+    return s[::-1]
+
+def is_palindrome(s):
+    s = s.lower().replace(" ", "")
+    return s == s[::-1]
+
+def calculate_average(numbers):
+    if len(numbers) == 0:
+        return None
+    return sum(numbers) / len(numbers)
+
+def find_maximum(numbers):
+    if len(numbers) == 0:
+        return None
+    return max(numbers)
+
+def find_minimum(numbers):
+    if len(numbers) == 0:
+        return None
+    return min(numbers)
+def calculate_square(x):
+    return x * x
+
+def calculate_cube(x):
+    return x * x * x
+
+def calculate_power(base, exponent):
+    return base ** exponent
+
+def calculate_factorial_recursive(n):
+    if n == 0 or n == 1:
+        return 1
+    return n * calculate_factorial_recursive(n - 1)
+
+def is_even(n):
+    return n % 2 == 0
+def find_average_length(words):
+    total_length = sum(len(word) for word in words)
+    return total_length / len(words)
+
+def reverse_words_in_sentence(sentence):
+    words = sentence.split()
+    reversed_words = [word[::-1] for word in words]
+    return " ".join(reversed_words)
+
+def is_prime(n):
+    if n <= 1:
+        return False
+    for i in range(2, int(n ** 0.5) + 1):
+        if n % i == 0:
+            return False
+    return True
+
+def count_vowels(text):
+    vowels = "aeiouAEIOU"
+    return sum(1 for char in text if char in vowels)
+def calculate_average(numbers):
+    total = sum(numbers)
+    count = len(numbers)
+    return total / count
+
+def find_max(numbers):
+    max_number = numbers[0]
+    for num in numbers:
+        if num > max_number:
+            max_number = num
+    return max_number
+
+def find_min(numbers):
+    min_number = numbers[0]
+    for num in numbers:
+        if num < min_number:
+            min_number = num
+    return min_number
+
+def calculate_fibonacci(n):
+    if n <= 0:
+        return []
+    elif n == 1:
+        return [0]
+    fib_sequence = [0, 1]
+    while len(fib_sequence) < n:
+        next_num = fib_sequence[-1] + fib_sequence[-2]
+        fib_sequence.append(next_num)
+    return fib_sequence
+
+def is_palindrome(word):
+    return word == word[::-1]
+def capitalize_words(text):
+    words = text.split()
+    capitalized_words = [word.capitalize() for word in words]
+    return " ".join(capitalized_words)
+
+def find_common_elements(list1, list2):
+    return list(set(list1) & set(list2))
+
+def calculate_gcd(a, b):
+    while b:
+        a, b = b, a % b
+    return a
+
+def reverse_string(text):
+    return text[::-1]
+
+def calculate_square_root(n):
+    return n ** 0.5
+def calculate_factorial(n):
+    if n == 0:
+        return 1
+    else:
+        return n * calculate_factorial(n - 1)
+
+def is_prime(number):
+    if number <= 1:
+        return False
+    for i in range(2, int(number**0.5) + 1):
+        if number % i == 0:
+            return False
+    return True
+
+def count_vowels(text):
+    vowels = "aeiouAEIOU"
+    vowel_count = sum(1 for char in text if char in vowels)
+    return vowel_count
+
+def reverse_list(lst):
+    return lst[::-1]
+
+def calculate_average(nums):
+    return sum(nums) / len(nums)
+def find_longest_word(words):
+    longest_word = ""
+    for word in words:
+        if len(word) > len(longest_word):
+            longest_word = word
+    return longest_word
+
+def calculate_power(base, exponent):
+    return base ** exponent
+
+def remove_duplicates(lst):
+    unique_lst = list(set(lst))
+    return unique_lst
+
+def is_even(number):
+    return number % 2 == 0
+
+def count_occurrences(lst, item):
+    return lst.count(item)
+def greet(name):
+    return f"Hello, {name}!"
+
+def factorial(n):
+    if n == 0:
+        return 1
+    else:
+        return n * factorial(n - 1)
+
+def quadratic_formula(a, b, c):
+    discriminant = b**2 - 4*a*c
+    if discriminant < 0:
+        return None
+    else:
+        x1 = (-b + discriminant**0.5) / (2*a)
+        x2 = (-b - discriminant**0.5) / (2*a)
+        return x1, x2
+def reverse_string(s):
+    return s[::-1]
+
+def is_palindrome(s):
+    s = s.lower().replace(" ", "")
+    return s == s[::-1]
+
+def calculate_average(numbers):
+    if len(numbers) == 0:
+        return None
+    return sum(numbers) / len(numbers)
+
+def find_maximum(numbers):
+    if len(numbers) == 0:
+        return None
+    return max(numbers)
+
+def find_minimum(numbers):
+    if len(numbers) == 0:
+        return None
+    return min(numbers)
+def calculate_square(x):
+    return x * x
+
+def calculate_cube(x):
+    return x * x * x
+
+def calculate_power(base, exponent):
+    return base ** exponent
+
+def calculate_factorial_recursive(n):
+    if n == 0 or n == 1:
+        return 1
+    return n * calculate_factorial_recursive(n - 1)
+
+def is_even(n):
+    return n % 2 == 0
+def find_average_length(words):
+    total_length = sum(len(word) for word in words)
+    return total_length / len(words)
+
+def reverse_words_in_sentence(sentence):
+    words = sentence.split()
+    reversed_words = [word[::-1] for word in words]
+    return " ".join(reversed_words)
+
+def is_prime(n):
+    if n <= 1:
+        return False
+    for i in range(2, int(n ** 0.5) + 1):
+        if n % i == 0:
+            return False
+    return True
+
+def count_vowels(text):
+    vowels = "aeiouAEIOU"
+    return sum(1 for char in text if char in vowels)
+def calculate_average(numbers):
+    total = sum(numbers)
+    count = len(numbers)
+    return total / count
+
+def find_max(numbers):
+    max_number = numbers[0]
+    for num in numbers:
+        if num > max_number:
+            max_number = num
+    return max_number
+
+def find_min(numbers):
+    min_number = numbers[0]
+    for num in numbers:
+        if num < min_number:
+            min_number = num
+    return min_number
+
+def calculate_fibonacci(n):
+    if n <= 0:
+        return []
+    elif n == 1:
+        return [0]
+    fib_sequence = [0, 1]
+    while len(fib_sequence) < n:
+        next_num = fib_sequence[-1] + fib_sequence[-2]
+        fib_sequence.append(next_num)
+    return fib_sequence
+
+def is_palindrome(word):
+    return word == word[::-1]
+def capitalize_words(text):
+    words = text.split()
+    capitalized_words = [word.capitalize() for word in words]
+    return " ".join(capitalized_words)
+
+def find_common_elements(list1, list2):
+    return list(set(list1) & set(list2))
+
+def calculate_gcd(a, b):
+    while b:
+        a, b = b, a % b
+    return a
+
+def reverse_string(text):
+    return text[::-1]
+
+def calculate_square_root(n):
+    return n ** 0.5
+def calculate_factorial(n):
+    if n == 0:
+        return 1
+    else:
+        return n * calculate_factorial(n - 1)
+
+def is_prime(number):
+    if number <= 1:
+        return False
+    for i in range(2, int(number**0.5) + 1):
+        if number % i == 0:
+            return False
+    return True
+
+def count_vowels(text):
+    vowels = "aeiouAEIOU"
+    vowel_count = sum(1 for char in text if char in vowels)
+    return vowel_count
+
+def reverse_list(lst):
+    return lst[::-1]
+
+def calculate_average(nums):
+    return sum(nums) / len(nums)
+def find_longest_word(words):
+    longest_word = ""
+    for word in words:
+        if len(word) > len(longest_word):
+            longest_word = word
+    return longest_word
+
+def calculate_power(base, exponent):
+    return base ** exponent
+
+def remove_duplicates(lst):
+    unique_lst = list(set(lst))
+    return unique_lst
+
+def is_even(number):
+    return number % 2 == 0
+
+def count_occurrences(lst, item):
+    return lst.count(item)
+def greet(name):
+    return f"Hello, {name}!"
+
+def factorial(n):
+    if n == 0:
+        return 1
+    else:
+        return n * factorial(n - 1)
+
+def quadratic_formula(a, b, c):
+    discriminant = b**2 - 4*a*c
+    if discriminant < 0:
+        return None
+    else:
+        x1 = (-b + discriminant**0.5) / (2*a)
+        x2 = (-b - discriminant**0.5) / (2*a)
+        return x1, x2
+def reverse_string(s):
+    return s[::-1]
+
+def is_palindrome(s):
+    s = s.lower().replace(" ", "")
+    return s == s[::-1]
+
+def calculate_average(numbers):
+    if len(numbers) == 0:
+        return None
+    return sum(numbers) / len(numbers)
+
+def find_maximum(numbers):
+    if len(numbers) == 0:
+        return None
+    return max(numbers)
+
+def find_minimum(numbers):
+    if len(numbers) == 0:
+        return None
+    return min(numbers)
+def calculate_square(x):
+    return x * x
+
+def calculate_cube(x):
+    return x * x * x
+
+def calculate_power(base, exponent):
+    return base ** exponent
+
+def calculate_factorial_recursive(n):
+    if n == 0 or n == 1:
+        return 1
+    return n * calculate_factorial_recursive(n - 1)
+
+def is_even(n):
+    return n % 2 == 0
+def find_average_length(words):
+    total_length = sum(len(word) for word in words)
+    return total_length / len(words)
+
+def reverse_words_in_sentence(sentence):
+    words = sentence.split()
+    reversed_words = [word[::-1] for word in words]
+    return " ".join(reversed_words)
+
+def is_prime(n):
+    if n <= 1:
+        return False
+    for i in range(2, int(n ** 0.5) + 1):
+        if n % i == 0:
+            return False
+    return True
+
+def count_vowels(text):
+    vowels = "aeiouAEIOU"
+    return sum(1 for char in text if char in vowels)
+def calculate_average(numbers):
+    total = sum(numbers)
+    count = len(numbers)
+    return total / count
+
+def find_max(numbers):
+    max_number = numbers[0]
+    for num in numbers:
+        if num > max_number:
+            max_number = num
+    return max_number
+
+def find_min(numbers):
+    min_number = numbers[0]
+    for num in numbers:
+        if num < min_number:
+            min_number = num
+    return min_number
+
+def calculate_fibonacci(n):
+    if n <= 0:
+        return []
+    elif n == 1:
+        return [0]
+    fib_sequence = [0, 1]
+    while len(fib_sequence) < n:
+        next_num = fib_sequence[-1] + fib_sequence[-2]
+        fib_sequence.append(next_num)
+    return fib_sequence
+
+def is_palindrome(word):
+    return word == word[::-1]
+def capitalize_words(text):
+    words = text.split()
+    capitalized_words = [word.capitalize() for word in words]
+    return " ".join(capitalized_words)
+
+def find_common_elements(list1, list2):
+    return list(set(list1) & set(list2))
+
+def calculate_gcd(a, b):
+    while b:
+        a, b = b, a % b
+    return a
+
+def reverse_string(text):
+    return text[::-1]
+
+def calculate_square_root(n):
+    return n ** 0.5
+def calculate_factorial(n):
+    if n == 0:
+        return 1
+    else:
+        return n * calculate_factorial(n - 1)
+
+def is_prime(number):
+    if number <= 1:
+        return False
+    for i in range(2, int(number**0.5) + 1):
+        if number % i == 0:
+            return False
+    return True
+
+def count_vowels(text):
+    vowels = "aeiouAEIOU"
+    vowel_count = sum(1 for char in text if char in vowels)
+    return vowel_count
+
+def reverse_list(lst):
+    return lst[::-1]
+
+def calculate_average(nums):
+    return sum(nums) / len(nums)
+def find_longest_word(words):
+    longest_word = ""
+    for word in words:
+        if len(word) > len(longest_word):
+            longest_word = word
+    return longest_word
+
+def calculate_power(base, exponent):
+    return base ** exponent
+
+def remove_duplicates(lst):
+    unique_lst = list(set(lst))
+    return unique_lst
+
+def is_even(number):
+    return number % 2 == 0
+
+def count_occurrences(lst, item):
+    return lst.count(item)
+def greet(name):
+    return f"Hello, {name}!"
+
+def factorial(n):
+    if n == 0:
+        return 1
+    else:
+        return n * factorial(n - 1)
+
+def quadratic_formula(a, b, c):
+    discriminant = b**2 - 4*a*c
+    if discriminant < 0:
+        return None
+    else:
+        x1 = (-b + discriminant**0.5) / (2*a)
+        x2 = (-b - discriminant**0.5) / (2*a)
+        return x1, x2
+def reverse_string(s):
+    return s[::-1]
+
+def is_palindrome(s):
+    s = s.lower().replace(" ", "")
+    return s == s[::-1]
+
+def calculate_average(numbers):
+    if len(numbers) == 0:
+        return None
+    return sum(numbers) / len(numbers)
+
+def find_maximum(numbers):
+    if len(numbers) == 0:
+        return None
+    return max(numbers)
+
+def find_minimum(numbers):
+    if len(numbers) == 0:
+        return None
+    return min(numbers)
+def calculate_square(x):
+    return x * x
+
+def calculate_cube(x):
+    return x * x * x
+
+def calculate_power(base, exponent):
+    return base ** exponent
+
+def calculate_factorial_recursive(n):
+    if n == 0 or n == 1:
+        return 1
+    return n * calculate_factorial_recursive(n - 1)
+
+def is_even(n):
+    return n % 2 == 0
+def find_average_length(words):
+    total_length = sum(len(word) for word in words)
+    return total_length / len(words)
+
+def reverse_words_in_sentence(sentence):
+    words = sentence.split()
+    reversed_words = [word[::-1] for word in words]
+    return " ".join(reversed_words)
+
+def is_prime(n):
+    if n <= 1:
+        return False
+    for i in range(2, int(n ** 0.5) + 1):
+        if n % i == 0:
+            return False
+    return True
+
+def count_vowels(text):
+    vowels = "aeiouAEIOU"
+    return sum(1 for char in text if char in vowels)
+def calculate_average(numbers):
+    total = sum(numbers)
+    count = len(numbers)
+    return total / count
+
+def find_max(numbers):
+    max_number = numbers[0]
+    for num in numbers:
+        if num > max_number:
+            max_number = num
+    return max_number
+
+def find_min(numbers):
+    min_number = numbers[0]
+    for num in numbers:
+        if num < min_number:
+            min_number = num
+    return min_number
+
+def calculate_fibonacci(n):
+    if n <= 0:
+        return []
+    elif n == 1:
+        return [0]
+    fib_sequence = [0, 1]
+    while len(fib_sequence) < n:
+        next_num = fib_sequence[-1] + fib_sequence[-2]
+        fib_sequence.append(next_num)
+    return fib_sequence
+
+def is_palindrome(word):
+    return word == word[::-1]
+def capitalize_words(text):
+    words = text.split()
+    capitalized_words = [word.capitalize() for word in words]
+    return " ".join(capitalized_words)
+
+def find_common_elements(list1, list2):
+    return list(set(list1) & set(list2))
+
+def calculate_gcd(a, b):
+    while b:
+        a, b = b, a % b
+    return a
+
+def reverse_string(text):
+    return text[::-1]
+
+def calculate_square_root(n):
+    return n ** 0.5
+def calculate_factorial(n):
+    if n == 0:
+        return 1
+    else:
+        return n * calculate_factorial(n - 1)
+
+def is_prime(number):
+    if number <= 1:
+        return False
+    for i in range(2, int(number**0.5) + 1):
+        if number % i == 0:
+            return False
+    return True
+
+def count_vowels(text):
+    vowels = "aeiouAEIOU"
+    vowel_count = sum(1 for char in text if char in vowels)
+    return vowel_count
+
+def reverse_list(lst):
+    return lst[::-1]
+
+def calculate_average(nums):
+    return sum(nums) / len(nums)
+def find_longest_word(words):
+    longest_word = ""
+    for word in words:
+        if len(word) > len(longest_word):
+            longest_word = word
+    return longest_word
+
+def calculate_power(base, exponent):
+    return base ** exponent
+
+def remove_duplicates(lst):
+    unique_lst = list(set(lst))
+    return unique_lst
+
+def is_even(number):
+    return number % 2 == 0
+
+def count_occurrences(lst, item):
+    return lst.count(item)
+def greet(name):
+    return f"Hello, {name}!"
+
+def factorial(n):
+    if n == 0:
+        return 1
+    else:
+        return n * factorial(n - 1)
+
+def quadratic_formula(a, b, c):
+    discriminant = b**2 - 4*a*c
+    if discriminant < 0:
+        return None
+    else:
+        x1 = (-b + discriminant**0.5) / (2*a)
+        x2 = (-b - discriminant**0.5) / (2*a)
+        return x1, x2
+def reverse_string(s):
+    return s[::-1]
+
+def is_palindrome(s):
+    s = s.lower().replace(" ", "")
+    return s == s[::-1]
+
+def calculate_average(numbers):
+    if len(numbers) == 0:
+        return None
+    return sum(numbers) / len(numbers)
+
+def find_maximum(numbers):
+    if len(numbers) == 0:
+        return None
+    return max(numbers)
+
+def find_minimum(numbers):
+    if len(numbers) == 0:
+        return None
+    return min(numbers)
+def calculate_square(x):
+    return x * x
+
+def calculate_cube(x):
+    return x * x * x
+
+def calculate_power(base, exponent):
+    return base ** exponent
+
+def calculate_factorial_recursive(n):
+    if n == 0 or n == 1:
+        return 1
+    return n * calculate_factorial_recursive(n - 1)
+
+def is_even(n):
+    return n % 2 == 0
+def find_average_length(words):
+    total_length = sum(len(word) for word in words)
+    return total_length / len(words)
+
+def reverse_words_in_sentence(sentence):
+    words = sentence.split()
+    reversed_words = [word[::-1] for word in words]
+    return " ".join(reversed_words)
+
+def is_prime(n):
+    if n <= 1:
+        return False
+    for i in range(2, int(n ** 0.5) + 1):
+        if n % i == 0:
+            return False
+    return True
+
+def count_vowels(text):
+    vowels = "aeiouAEIOU"
+    return sum(1 for char in text if char in vowels)
+def calculate_average(numbers):
+    total = sum(numbers)
+    count = len(numbers)
+    return total / count
+
+def find_max(numbers):
+    max_number = numbers[0]
+    for num in numbers:
+        if num > max_number:
+            max_number = num
+    return max_number
+
+def find_min(numbers):
+    min_number = numbers[0]
+    for num in numbers:
+        if num < min_number:
+            min_number = num
+    return min_number
+
+def calculate_fibonacci(n):
+    if n <= 0:
+        return []
+    elif n == 1:
+        return [0]
+    fib_sequence = [0, 1]
+    while len(fib_sequence) < n:
+        next_num = fib_sequence[-1] + fib_sequence[-2]
+        fib_sequence.append(next_num)
+    return fib_sequence
+
+def is_palindrome(word):
+    return word == word[::-1]
+def capitalize_words(text):
+    words = text.split()
+    capitalized_words = [word.capitalize() for word in words]
+    return " ".join(capitalized_words)
+
+def find_common_elements(list1, list2):
+    return list(set(list1) & set(list2))
+
+def calculate_gcd(a, b):
+    while b:
+        a, b = b, a % b
+    return a
+
+def reverse_string(text):
+    return text[::-1]
+
+def calculate_square_root(n):
+    return n ** 0.5
+def calculate_factorial(n):
+    if n == 0:
+        return 1
+    else:
+        return n * calculate_factorial(n - 1)
+
+def is_prime(number):
+    if number <= 1:
+        return False
+    for i in range(2, int(number**0.5) + 1):
+        if number % i == 0:
+            return False
+    return True
+
+def count_vowels(text):
+    vowels = "aeiouAEIOU"
+    vowel_count = sum(1 for char in text if char in vowels)
+    return vowel_count
+
+def reverse_list(lst):
+    return lst[::-1]
+
+def calculate_average(nums):
+    return sum(nums) / len(nums)
+def find_longest_word(words):
+    longest_word = ""
+    for word in words:
+        if len(word) > len(longest_word):
+            longest_word = word
+    return longest_word
+
+def calculate_power(base, exponent):
+    return base ** exponent
+
+def remove_duplicates(lst):
+    unique_lst = list(set(lst))
+    return unique_lst
+
+def is_even(number):
+    return number % 2 == 0
+
+def count_occurrences(lst, item):
+    return lst.count(item)
+def greet(name):
+    return f"Hello, {name}!"
+
+def factorial(n):
+    if n == 0:
+        return 1
+    else:
+        return n * factorial(n - 1)
+
+def quadratic_formula(a, b, c):
+    discriminant = b**2 - 4*a*c
+    if discriminant < 0:
+        return None
+    else:
+        x1 = (-b + discriminant**0.5) / (2*a)
+        x2 = (-b - discriminant**0.5) / (2*a)
+        return x1, x2
+def reverse_string(s):
+    return s[::-1]
+
+def is_palindrome(s):
+    s = s.lower().replace(" ", "")
+    return s == s[::-1]
+
+def calculate_average(numbers):
+    if len(numbers) == 0:
+        return None
+    return sum(numbers) / len(numbers)
+
+def find_maximum(numbers):
+    if len(numbers) == 0:
+        return None
+    return max(numbers)
+
+def find_minimum(numbers):
+    if len(numbers) == 0:
+        return None
+    return min(numbers)
+def calculate_square(x):
+    return x * x
+
+def calculate_cube(x):
+    return x * x * x
+
+def calculate_power(base, exponent):
+    return base ** exponent
+
+def calculate_factorial_recursive(n):
+    if n == 0 or n == 1:
+        return 1
+    return n * calculate_factorial_recursive(n - 1)
+
+def is_even(n):
+    return n % 2 == 0
+def find_average_length(words):
+    total_length = sum(len(word) for word in words)
+    return total_length / len(words)
+
+def reverse_words_in_sentence(sentence):
+    words = sentence.split()
+    reversed_words = [word[::-1] for word in words]
+    return " ".join(reversed_words)
+
+def is_prime(n):
+    if n <= 1:
+        return False
+    for i in range(2, int(n ** 0.5) + 1):
+        if n % i == 0:
+            return False
+    return True
+
+def count_vowels(text):
+    vowels = "aeiouAEIOU"
+    return sum(1 for char in text if char in vowels)
+def calculate_average(numbers):
+    total = sum(numbers)
+    count = len(numbers)
+    return total / count
+
+def find_max(numbers):
+    max_number = numbers[0]
+    for num in numbers:
+        if num > max_number:
+            max_number = num
+    return max_number
+
+def find_min(numbers):
+    min_number = numbers[0]
+    for num in numbers:
+        if num < min_number:
+            min_number = num
+    return min_number
+
+def calculate_fibonacci(n):
+    if n <= 0:
+        return []
+    elif n == 1:
+        return [0]
+    fib_sequence = [0, 1]
+    while len(fib_sequence) < n:
+        next_num = fib_sequence[-1] + fib_sequence[-2]
+        fib_sequence.append(next_num)
+    return fib_sequence
+
+def is_palindrome(word):
+    return word == word[::-1]
+def capitalize_words(text):
+    words = text.split()
+    capitalized_words = [word.capitalize() for word in words]
+    return " ".join(capitalized_words)
+
+def find_common_elements(list1, list2):
+    return list(set(list1) & set(list2))
+
+def calculate_gcd(a, b):
+    while b:
+        a, b = b, a % b
+    return a
+
+def reverse_string(text):
+    return text[::-1]
+
+def calculate_square_root(n):
+    return n ** 0.5
+def calculate_factorial(n):
+    if n == 0:
+        return 1
+    else:
+        return n * calculate_factorial(n - 1)
+
+def is_prime(number):
+    if number <= 1:
+        return False
+    for i in range(2, int(number**0.5) + 1):
+        if number % i == 0:
+            return False
+    return True
+
+def count_vowels(text):
+    vowels = "aeiouAEIOU"
+    vowel_count = sum(1 for char in text if char in vowels)
+    return vowel_count
+
+def reverse_list(lst):
+    return lst[::-1]
+
+def calculate_average(nums):
+    return sum(nums) / len(nums)
+def find_longest_word(words):
+    longest_word = ""
+    for word in words:
+        if len(word) > len(longest_word):
+            longest_word = word
+    return longest_word
+
+def calculate_power(base, exponent):
+    return base ** exponent
+
+def remove_duplicates(lst):
+    unique_lst = list(set(lst))
+    return unique_lst
+
+def is_even(number):
+    return number % 2 == 0
+
+def count_occurrences(lst, item):
+    return lst.count(item)
+def greet(name):
+    return f"Hello, {name}!"
+
+def factorial(n):
+    if n == 0:
+        return 1
+    else:
+        return n * factorial(n - 1)
+
+def quadratic_formula(a, b, c):
+    discriminant = b**2 - 4*a*c
+    if discriminant < 0:
+        return None
+    else:
+        x1 = (-b + discriminant**0.5) / (2*a)
+        x2 = (-b - discriminant**0.5) / (2*a)
+        return x1, x2
+def reverse_string(s):
+    return s[::-1]
+
+def is_palindrome(s):
+    s = s.lower().replace(" ", "")
+    return s == s[::-1]
+
+def calculate_average(numbers):
+    if len(numbers) == 0:
+        return None
+    return sum(numbers) / len(numbers)
+
+def find_maximum(numbers):
+    if len(numbers) == 0:
+        return None
+    return max(numbers)
+
+def find_minimum(numbers):
+    if len(numbers) == 0:
+        return None
+    return min(numbers)
+def calculate_square(x):
+    return x * x
+
+def calculate_cube(x):
+    return x * x * x
+
+def calculate_power(base, exponent):
+    return base ** exponent
+
+def calculate_factorial_recursive(n):
+    if n == 0 or n == 1:
+        return 1
+    return n * calculate_factorial_recursive(n - 1)
+
+def is_even(n):
+    return n % 2 == 0
+def find_average_length(words):
+    total_length = sum(len(word) for word in words)
+    return total_length / len(words)
+
+def reverse_words_in_sentence(sentence):
+    words = sentence.split()
+    reversed_words = [word[::-1] for word in words]
+    return " ".join(reversed_words)
+
+def is_prime(n):
+    if n <= 1:
+        return False
+    for i in range(2, int(n ** 0.5) + 1):
+        if n % i == 0:
+            return False
+    return True
+
+def count_vowels(text):
+    vowels = "aeiouAEIOU"
+    return sum(1 for char in text if char in vowels)
+def calculate_average(numbers):
+    total = sum(numbers)
+    count = len(numbers)
+    return total / count
+
+def find_max(numbers):
+    max_number = numbers[0]
+    for num in numbers:
+        if num > max_number:
+            max_number = num
+    return max_number
+
+def find_min(numbers):
+    min_number = numbers[0]
+    for num in numbers:
+        if num < min_number:
+            min_number = num
+    return min_number
+
+def calculate_fibonacci(n):
+    if n <= 0:
+        return []
+    elif n == 1:
+        return [0]
+    fib_sequence = [0, 1]
+    while len(fib_sequence) < n:
+        next_num = fib_sequence[-1] + fib_sequence[-2]
+        fib_sequence.append(next_num)
+    return fib_sequence
+
+def is_palindrome(word):
+    return word == word[::-1]
+def capitalize_words(text):
+    words = text.split()
+    capitalized_words = [word.capitalize() for word in words]
+    return " ".join(capitalized_words)
+
+def find_common_elements(list1, list2):
+    return list(set(list1) & set(list2))
+
+def calculate_gcd(a, b):
+    while b:
+        a, b = b, a % b
+    return a
+
+def reverse_string(text):
+    return text[::-1]
+
+def calculate_square_root(n):
+    return n ** 0.5
+def calculate_factorial(n):
+    if n == 0:
+        return 1
+    else:
+        return n * calculate_factorial(n - 1)
+
+def is_prime(number):
+    if number <= 1:
+        return False
+    for i in range(2, int(number**0.5) + 1):
+        if number % i == 0:
+            return False
+    return True
+
+def count_vowels(text):
+    vowels = "aeiouAEIOU"
+    vowel_count = sum(1 for char in text if char in vowels)
+    return vowel_count
+
+def reverse_list(lst):
+    return lst[::-1]
+
+def calculate_average(nums):
+    return sum(nums) / len(nums)
+def find_longest_word(words):
+    longest_word = ""
+    for word in words:
+        if len(word) > len(longest_word):
+            longest_word = word
+    return longest_word
+
+def calculate_power(base, exponent):
+    return base ** exponent
+
+def remove_duplicates(lst):
+    unique_lst = list(set(lst))
+    return unique_lst
+
+def is_even(number):
+    return number % 2 == 0
+
+def count_occurrences(lst, item):
+    return lst.count(item)
+def greet(name):
+    return f"Hello, {name}!"
+
+def factorial(n):
+    if n == 0:
+        return 1
+    else:
+        return n * factorial(n - 1)
+
+def quadratic_formula(a, b, c):
+    discriminant = b**2 - 4*a*c
+    if discriminant < 0:
+        return None
+    else:
+        x1 = (-b + discriminant**0.5) / (2*a)
+        x2 = (-b - discriminant**0.5) / (2*a)
+        return x1, x2
+def reverse_string(s):
+    return s[::-1]
+
+def is_palindrome(s):
+    s = s.lower().replace(" ", "")
+    return s == s[::-1]
+
+def calculate_average(numbers):
+    if len(numbers) == 0:
+        return None
+    return sum(numbers) / len(numbers)
+
+def find_maximum(numbers):
+    if len(numbers) == 0:
+        return None
+    return max(numbers)
+
+def find_minimum(numbers):
+    if len(numbers) == 0:
+        return None
+    return min(numbers)
+def calculate_square(x):
+    return x * x
+
+def calculate_cube(x):
+    return x * x * x
+
+def calculate_power(base, exponent):
+    return base ** exponent
+
+def calculate_factorial_recursive(n):
+    if n == 0 or n == 1:
+        return 1
+    return n * calculate_factorial_recursive(n - 1)
+
+def is_even(n):
+    return n % 2 == 0
+def find_average_length(words):
+    total_length = sum(len(word) for word in words)
+    return total_length / len(words)
+
+def reverse_words_in_sentence(sentence):
+    words = sentence.split()
+    reversed_words = [word[::-1] for word in words]
+    return " ".join(reversed_words)
+
+def is_prime(n):
+    if n <= 1:
+        return False
+    for i in range(2, int(n ** 0.5) + 1):
+        if n % i == 0:
+            return False
+    return True
+
+def count_vowels(text):
+    vowels = "aeiouAEIOU"
+    return sum(1 for char in text if char in vowels)
+def calculate_average(numbers):
+    total = sum(numbers)
+    count = len(numbers)
+    return total / count
+
+def find_max(numbers):
+    max_number = numbers[0]
+    for num in numbers:
+        if num > max_number:
+            max_number = num
+    return max_number
+
+def find_min(numbers):
+    min_number = numbers[0]
+    for num in numbers:
+        if num < min_number:
+            min_number = num
+    return min_number
+
+def calculate_fibonacci(n):
+    if n <= 0:
+        return []
+    elif n == 1:
+        return [0]
+    fib_sequence = [0, 1]
+    while len(fib_sequence) < n:
+        next_num = fib_sequence[-1] + fib_sequence[-2]
+        fib_sequence.append(next_num)
+    return fib_sequence
+
+def is_palindrome(word):
+    return word == word[::-1]
+def capitalize_words(text):
+    words = text.split()
+    capitalized_words = [word.capitalize() for word in words]
+    return " ".join(capitalized_words)
+
+def find_common_elements(list1, list2):
+    return list(set(list1) & set(list2))
+
+def calculate_gcd(a, b):
+    while b:
+        a, b = b, a % b
+    return a
+
+def reverse_string(text):
+    return text[::-1]
+
+def calculate_square_root(n):
+    return n ** 0.5
+def calculate_factorial(n):
+    if n == 0:
+        return 1
+    else:
+        return n * calculate_factorial(n - 1)
+
+def is_prime(number):
+    if number <= 1:
+        return False
+    for i in range(2, int(number**0.5) + 1):
+        if number % i == 0:
+            return False
+    return True
+
+def count_vowels(text):
+    vowels = "aeiouAEIOU"
+    vowel_count = sum(1 for char in text if char in vowels)
+    return vowel_count
+
+def reverse_list(lst):
+    return lst[::-1]
+
+def calculate_average(nums):
+    return sum(nums) / len(nums)
+def find_longest_word(words):
+    longest_word = ""
+    for word in words:
+        if len(word) > len(longest_word):
+            longest_word = word
+    return longest_word
+
+def calculate_power(base, exponent):
+    return base ** exponent
+
+def remove_duplicates(lst):
+    unique_lst = list(set(lst))
+    return unique_lst
+
+def is_even(number):
+    return number % 2 == 0
+
+def count_occurrences(lst, item):
+    return lst.count(item)
+def greet(name):
+    return f"Hello, {name}!"
+
+def factorial(n):
+    if n == 0:
+        return 1
+    else:
+        return n * factorial(n - 1)
+
+def quadratic_formula(a, b, c):
+    discriminant = b**2 - 4*a*c
+    if discriminant < 0:
+        return None
+    else:
+        x1 = (-b + discriminant**0.5) / (2*a)
+        x2 = (-b - discriminant**0.5) / (2*a)
+        return x1, x2
+def reverse_string(s):
+    return s[::-1]
+
+def is_palindrome(s):
+    s = s.lower().replace(" ", "")
+    return s == s[::-1]
+
+def calculate_average(numbers):
+    if len(numbers) == 0:
+        return None
+    return sum(numbers) / len(numbers)
+
+def find_maximum(numbers):
+    if len(numbers) == 0:
+        return None
+    return max(numbers)
+
+def find_minimum(numbers):
+    if len(numbers) == 0:
+        return None
+    return min(numbers)
+def calculate_square(x):
+    return x * x
+
+def calculate_cube(x):
+    return x * x * x
+
+def calculate_power(base, exponent):
+    return base ** exponent
+
+def calculate_factorial_recursive(n):
+    if n == 0 or n == 1:
+        return 1
+    return n * calculate_factorial_recursive(n - 1)
+
+def is_even(n):
+    return n % 2 == 0
+def find_average_length(words):
+    total_length = sum(len(word) for word in words)
+    return total_length / len(words)
+
+def reverse_words_in_sentence(sentence):
+    words = sentence.split()
+    reversed_words = [word[::-1] for word in words]
+    return " ".join(reversed_words)
+
+def is_prime(n):
+    if n <= 1:
+        return False
+    for i in range(2, int(n ** 0.5) + 1):
+        if n % i == 0:
+            return False
+    return True
+
+def count_vowels(text):
+    vowels = "aeiouAEIOU"
+    return sum(1 for char in text if char in vowels)
+def calculate_average(numbers):
+    total = sum(numbers)
+    count = len(numbers)
+    return total / count
+
+def find_max(numbers):
+    max_number = numbers[0]
+    for num in numbers:
+        if num > max_number:
+            max_number = num
+    return max_number
+
+def find_min(numbers):
+    min_number = numbers[0]
+    for num in numbers:
+        if num < min_number:
+            min_number = num
+    return min_number
+
+def calculate_fibonacci(n):
+    if n <= 0:
+        return []
+    elif n == 1:
+        return [0]
+    fib_sequence = [0, 1]
+    while len(fib_sequence) < n:
+        next_num = fib_sequence[-1] + fib_sequence[-2]
+        fib_sequence.append(next_num)
+    return fib_sequence
+
+def is_palindrome(word):
+    return word == word[::-1]
+def capitalize_words(text):
+    words = text.split()
+    capitalized_words = [word.capitalize() for word in words]
+    return " ".join(capitalized_words)
+
+def find_common_elements(list1, list2):
+    return list(set(list1) & set(list2))
+
+def calculate_gcd(a, b):
+    while b:
+        a, b = b, a % b
+    return a
+
+def reverse_string(text):
+    return text[::-1]
+
+def calculate_square_root(n):
+    return n ** 0.5
+def calculate_factorial(n):
+    if n == 0:
+        return 1
+    else:
+        return n * calculate_factorial(n - 1)
+
+def is_prime(number):
+    if number <= 1:
+        return False
+    for i in range(2, int(number**0.5) + 1):
+        if number % i == 0:
+            return False
+    return True
+
+def count_vowels(text):
+    vowels = "aeiouAEIOU"
+    vowel_count = sum(1 for char in text if char in vowels)
+    return vowel_count
+
+def reverse_list(lst):
+    return lst[::-1]
+
+def calculate_average(nums):
+    return sum(nums) / len(nums)
+def find_longest_word(words):
+    longest_word = ""
+    for word in words:
+        if len(word) > len(longest_word):
+            longest_word = word
+    return longest_word
+
+def calculate_power(base, exponent):
+    return base ** exponent
+
+def remove_duplicates(lst):
+    unique_lst = list(set(lst))
+    return unique_lst
+
+def is_even(number):
+    return number % 2 == 0
+
+def count_occurrences(lst, item):
+    return lst.count(item)

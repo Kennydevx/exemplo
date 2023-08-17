@@ -6,10 +6,10 @@ class ReinforcementLearningAgent:
 
     def choose_action(self, state):
         if state not in self.q_values:
-            self.q_values[state] = np.zeros(3)  # 3 ações possíveis
+            self.q_values[state] = np.zeros(10)  # 3 ações possíveis
 
         # Modificação: Adicione exploração inicial (ε-greedy)
-        epsilon = 0.1  # Probabilidade de escolher uma ação aleatória
+        epsilon = 0.5  # Probabilidade de escolher uma ação aleatória
         if np.random.rand() < epsilon:
             return np.random.choice(len(self.q_values[state]))
         else:
@@ -17,16 +17,16 @@ class ReinforcementLearningAgent:
         
     def update_q_value(self, state, action, reward, next_state):
         if state not in self.q_values:
-            self.q_values[state] = np.zeros(3)
+            self.q_values[state] = np.zeros(10)
         if next_state not in self.q_values:
-            self.q_values[next_state] = np.zeros(3)
+            self.q_values[next_state] = np.zeros(10)
         current_q = self.q_values[state][action]
         max_future_q = np.max(self.q_values[next_state])
-        new_q = current_q + 0.1 * (reward + 0.9 * max_future_q - current_q)
+        new_q = current_q + 0.2 * (reward + 0.9 * max_future_q - current_q)
         self.q_values[state][action] = new_q
 
         # Modificação: Ajuste a taxa de aprendizado e o fator de desconto
-        learning_rate = 0.9  # Ajuste conforme necessário
+        learning_rate = 0.01  # Ajuste conforme necessário
         discount_factor = 0.95  # Ajuste conforme necessário
 
         new_q = current_q + learning_rate * (reward + discount_factor * max_future_q - current_q)
